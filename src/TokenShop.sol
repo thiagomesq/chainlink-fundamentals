@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.26;
 
-import {AggregatorV3Interface} from "chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
+import {AggregatorV3Interface} from
+    "chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {MyERC20} from "./MyERC20.sol";
 
 contract TokenShop is Ownable {
-
     AggregatorV3Interface internal immutable i_priceFeed;
     MyERC20 public immutable i_token;
 
@@ -21,22 +21,25 @@ contract TokenShop is Ownable {
     constructor(address tokenAddress) Ownable(msg.sender) {
         i_token = MyERC20(tokenAddress);
         /**
-        * Network: Sepolia
-        * Aggregator: ETH/USD
-        * Address: 0x694AA1769357215DE4FAC081bf1f309aDC325306
-        */
+         * Network: Sepolia
+         * Aggregator: ETH/USD
+         * Address: 0x694AA1769357215DE4FAC081bf1f309aDC325306
+         */
         i_priceFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);
     }
 
     /**
-    * Returns the latest answer
-    */
-    function _getChainlinkDataFeedLatestAnswer() internal view returns (int) {
+     * Returns the latest answer
+     */
+    function _getChainlinkDataFeedLatestAnswer() internal view returns (int256) {
         (
-            /*uint80 roundID*/,
-            int price,
-            /*uint startedAt*/,
-            /*uint timeStamp*/,
+            /*uint80 roundID*/
+            ,
+            int256 price,
+            /*uint startedAt*/
+            ,
+            /*uint timeStamp*/
+            ,
             /*uint80 answeredInRound*/
         ) = i_priceFeed.latestRoundData();
         return price;
@@ -54,11 +57,11 @@ contract TokenShop is Ownable {
         if (msg.value == 0) {
             revert TokenShop__ZeroETHSent();
         }
-        i_token.mint(msg.sender,_amountToMint(msg.value));
+        i_token.mint(msg.sender, _amountToMint(msg.value));
     }
 
     function withdraw() external onlyOwner {
-        (bool success, ) = payable(owner()).call{value: address(this).balance}("");
+        (bool success,) = payable(owner()).call{value: address(this).balance}("");
         if (!success) {
             revert TokenShop__CouldNotWithdraw();
         }

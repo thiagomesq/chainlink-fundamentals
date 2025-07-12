@@ -2,10 +2,10 @@
 
 pragma solidity ^0.8.26;
 
-import { Script } from "forge-std/Script.sol";
-import { MyERC20 } from "src/MyERC20.sol";
-import { TokenShop } from "src/TokenShop.sol";
-import { DevOpsTools } from "foundry-devops/src/DevOpsTools.sol";
+import {Script} from "forge-std/Script.sol";
+import {MyERC20} from "src/MyERC20.sol";
+import {TokenShop} from "src/TokenShop.sol";
+import {DevOpsTools} from "foundry-devops/src/DevOpsTools.sol";
 
 contract DeployTokenShop is Script {
     function run() external returns (TokenShop) {
